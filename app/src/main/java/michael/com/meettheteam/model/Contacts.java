@@ -1,7 +1,7 @@
 package michael.com.meettheteam.model;
 
 /**
- * Created by Mikhail on 2/11/17.
+ * POJO Class
  */
 
 public class Contacts {
