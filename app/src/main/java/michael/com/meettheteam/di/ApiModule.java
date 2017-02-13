@@ -23,8 +23,8 @@ public class ApiModule {
 
     MeetTheTeam meetTheTeamApp;
 
-    public ApiModule(MeetTheTeam meetTheTeam) {
-        this.meetTheTeamApp = meetTheTeam;
+    public ApiModule(MeetTheTeam meetTheTeamApp) {
+        this.meetTheTeamApp = meetTheTeamApp;
     }
 
     @Provides

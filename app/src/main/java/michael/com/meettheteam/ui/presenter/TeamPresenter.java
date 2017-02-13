@@ -15,7 +15,7 @@ public class TeamPresenter implements TeamContract.UserActionListener {
     private TeamContract.View mView;
     private CompositeSubscription mSubscription;
 
-    TeamPresenter(Service service, TeamContract.View view) {
+    public TeamPresenter(Service service, TeamContract.View view) {
         this.mService = service;
         this.mView = view;
         mSubscription = new CompositeSubscription();
@@ -43,7 +43,6 @@ public class TeamPresenter implements TeamContract.UserActionListener {
         mSubscription.add(subscription);
 
     }
-
 
 
     @Override
