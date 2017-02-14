@@ -24,7 +24,7 @@ public class TeamPresenter {
     }
 
 
-    public void getTeamContacts(Boolean isConnected) {
+    public void getTeamContacts() {
         mView.showLoading();
 
         Subscription subscription = mService.getTeamContactList(new Service.GetContactsCallBack() {
@@ -44,6 +44,10 @@ public class TeamPresenter {
 
         mSubscription.add(subscription);
 
+    }
+
+    public void getContactDetails() {
+        mView.hideLoading();
     }
 
 }

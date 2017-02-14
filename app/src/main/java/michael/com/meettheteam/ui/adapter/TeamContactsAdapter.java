@@ -24,11 +24,18 @@ import michael.com.meettheteam.model.Contacts;
 
 public class TeamContactsAdapter extends RecyclerView.Adapter<TeamContactsAdapter.ViewHolder> {
 
+    private final OnItemClickListener listener;
     private final List<Contacts> teamContacts;
     Context mContext;
 
-    public TeamContactsAdapter(List<Contacts> teamContacts) {
+
+    public interface OnItemClickListener {
+        void onItemClick(View itemView, int position);
+    }
+
+    public TeamContactsAdapter(List<Contacts> teamContacts, OnItemClickListener listener) {
         this.teamContacts = teamContacts;
+        this.listener = listener;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -36,12 +43,18 @@ public class TeamContactsAdapter extends RecyclerView.Adapter<TeamContactsAdapte
         @BindView(R.id.avatar) ImageView avatar;
         @BindView(R.id.name_text) TextView nameText;
         @BindView(R.id.title) TextView titleText;
-        @BindView(R.id.bio) TextView bioText;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onItemClick(itemView, getLayoutPosition());
+                }
+            });
         }
 
     }
@@ -61,7 +74,6 @@ public class TeamContactsAdapter extends RecyclerView.Adapter<TeamContactsAdapte
         holder.nameText.setText(teamContacts.get(position).getFirstName()
                 + " "
                 + teamContacts.get(position).getLastName());
-        holder.bioText.setText(teamContacts.get(position).getBio());
         holder.titleText.setText(teamContacts.get(position).getTitle());
         String image = teamContacts.get(position).getAvatar();
         Glide.with(mContext).load(image).into(holder.avatar);

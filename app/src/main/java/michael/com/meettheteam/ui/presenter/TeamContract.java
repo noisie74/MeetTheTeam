@@ -10,11 +10,16 @@ import michael.com.meettheteam.model.Contacts;
 
 public interface TeamContract {
 
-    interface View{
+    interface View {
         void showLoading();
+
         void hideLoading();
+
         void onLoadingFailed(String error);
+
         void showContacts(List<Contacts> contactsList);
+
+//        void hideRecyclerView();
     }
 
 }

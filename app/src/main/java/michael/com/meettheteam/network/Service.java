@@ -7,7 +7,6 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -28,12 +27,7 @@ public class Service {
         return mNetworkService.getContacts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends List<Contacts>>>() {
-                    @Override
-                    public Observable<? extends List<Contacts>> call(Throwable throwable) {
-                        return Observable.error(throwable);
-                    }
-                })
+                .onErrorResumeNext(Observable::error)
                 .subscribe(new Subscriber<List<Contacts>>() {
                     @Override
                     public void onCompleted() {
