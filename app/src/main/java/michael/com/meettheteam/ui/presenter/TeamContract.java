@@ -1,21 +1,25 @@
 package michael.com.meettheteam.ui.presenter;
 
-import michael.com.meettheteam.model.Response;
+import java.util.List;
+
+import michael.com.meettheteam.model.Contacts;
 
 /**
- * Created by Mikhail on 2/11/17.
+ * Contract
  */
 
 public interface TeamContract {
 
-    interface View{
+    interface View {
         void showLoading();
+
         void hideLoading();
+
         void onLoadingFailed(String error);
-        void showContacts(Response response);
+
+        void showContacts(List<Contacts> contactsList);
+
+//        void hideRecyclerView();
     }
 
-    interface UserActionListener{
-        void onClickContact(int position);
-    }
 }

@@ -14,9 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static michael.com.meettheteam.util.Constants.API_URL;
 
-/**
- * Created by Mikhail on 2/11/17.
- */
 
 @Module
 public class ApiModule {

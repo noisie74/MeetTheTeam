@@ -1,15 +1,17 @@
 package michael.com.meettheteam.ui.presenter;
 
-import michael.com.meettheteam.model.Response;
+import java.util.List;
+
+import michael.com.meettheteam.model.Contacts;
 import michael.com.meettheteam.network.Service;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Created by Mikhail on 2/11/17.
+ * Presenter
  */
 
-public class TeamPresenter implements TeamContract.UserActionListener {
+public class TeamPresenter {
 
     private Service mService;
     private TeamContract.View mView;
@@ -22,13 +24,13 @@ public class TeamPresenter implements TeamContract.UserActionListener {
     }
 
 
-    public void getTeamContacts(Boolean isConnected) {
+    public void getTeamContacts() {
         mView.showLoading();
 
         Subscription subscription = mService.getTeamContactList(new Service.GetContactsCallBack() {
 
             @Override
-            public void onSuccess(Response teamContactResponse) {
+            public void onSuccess(List<Contacts> teamContactResponse) {
                 mView.hideLoading();
                 mView.showContacts(teamContactResponse);
             }
@@ -44,9 +46,8 @@ public class TeamPresenter implements TeamContract.UserActionListener {
 
     }
 
-
-    @Override
-    public void onClickContact(int position) {
-
+    public void getContactDetails() {
+        mView.hideLoading();
     }
+
 }

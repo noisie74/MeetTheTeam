@@ -1,17 +1,16 @@
 package michael.com.meettheteam.network;
 
+import java.util.List;
+
 import michael.com.meettheteam.model.Contacts;
-import michael.com.meettheteam.model.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-import timber.log.Timber;
 
 /**
- * Created by Mikhail on 2/11/17.
+ * API Service
  */
 
 public class Service {
@@ -28,13 +27,8 @@ public class Service {
         return mNetworkService.getContacts()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends Response>>() {
-                    @Override
-                    public Observable<? extends Response> call(Throwable throwable) {
-                        return Observable.error(throwable);
-                    }
-                })
-                .subscribe(new Subscriber<Response>() {
+                .onErrorResumeNext(Observable::error)
+                .subscribe(new Subscriber<List<Contacts>>() {
                     @Override
                     public void onCompleted() {
 
@@ -48,15 +42,15 @@ public class Service {
                     }
 
                     @Override
-                    public void onNext(Response teamContactList) {
-                        callback.onSuccess(teamContactList);
+                    public void onNext(List<Contacts> list) {
+                        callback.onSuccess(list);
 
                     }
                 });
     }
 
     public interface GetContactsCallBack {
-        void onSuccess(Response teamContactResponse);
+        void onSuccess(List<Contacts> teamContactResponse);
         void onError(String networkError);
     }
 }

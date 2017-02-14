@@ -8,7 +8,7 @@ import michael.com.meettheteam.di.DaggerApiComponent;
 import timber.log.Timber;
 
 /**
- * Created by Mikhail on 2/11/17.
+ * App
  */
 
 public class MeetTheTeam extends Application {

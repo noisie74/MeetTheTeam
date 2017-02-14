@@ -6,7 +6,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -16,17 +19,18 @@ import michael.com.meettheteam.R;
  * Created by Mikhail on 2/11/17.
  */
 
-public class TeamListFragment extends Fragment {
+public class DetailFragment extends Fragment {
 
-    @BindView(R.id.name) TextView nameText;
+    @BindView(R.id.image) ImageView imageView;
+    @BindView(R.id.name_text) TextView nameText;
     @BindView(R.id.bio) TextView bioText;
+    @BindView(R.id.title) TextView titleText;
     private String firstName;
     private String lastName;
     private String bio;
+    private String image;
+    private String title;
 
-    public static TeamListFragment newInstance(String firstName, String lastName, String bio) {
-        return new TeamListFragment();
-    }
 
     @Nullable
     @Override
@@ -40,9 +44,11 @@ public class TeamListFragment extends Fragment {
     }
 
     private void loadData() {
-        if (firstName != null && lastName != null && bio != null) {
+        if (firstName != null && lastName != null && bio != null && title != null && image != null) {
             nameText.setText(firstName + " " + lastName);
             bioText.setText(bio);
+            titleText.setText(title);
+            Glide.with(getContext()).load(image).into(imageView);
         }
     }
 
@@ -56,5 +62,13 @@ public class TeamListFragment extends Fragment {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }
