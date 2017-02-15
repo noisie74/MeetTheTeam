@@ -46,8 +46,4 @@ public class TeamPresenter {
 
     }
 
-    public void getContactDetails() {
-        mView.hideLoading();
-    }
-
 }

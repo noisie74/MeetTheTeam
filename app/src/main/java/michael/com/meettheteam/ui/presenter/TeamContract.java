@@ -11,6 +11,7 @@ import michael.com.meettheteam.model.Contacts;
 public interface TeamContract {
 
     interface View {
+
         void showLoading();
 
         void hideLoading();
@@ -19,7 +20,6 @@ public interface TeamContract {
 
         void showContacts(List<Contacts> contactsList);
 
-//        void hideRecyclerView();
     }
 
 }
