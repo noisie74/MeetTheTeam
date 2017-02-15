@@ -1,5 +1,8 @@
 package michael.com.meettheteam.ui;
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.pm.ActivityInfo;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -9,10 +12,15 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.github.lzyzsd.circleprogress.DonutProgress;
+
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.inject.Inject;
 
@@ -31,8 +39,9 @@ import michael.com.meettheteam.util.ConnectionManager;
 public class MainActivity extends AppCompatActivity implements TeamContract.View {
 
     @BindView(R.id.list) RecyclerView mRecyclerView;
-    @BindView(R.id.progress) ProgressBar progressBar;
+    @BindView(R.id.progress) DonutProgress progressBar;
     @Inject Service service;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +71,34 @@ public class MainActivity extends AppCompatActivity implements TeamContract.View
 
     @Override
     public void showLoading() {
+
         progressBar.setVisibility(View.VISIBLE);
+
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        boolean a = false;
+                        if (a) {
+                            ObjectAnimator anim = ObjectAnimator.ofInt(progressBar, "progress", 0, 10);
+                            anim.setInterpolator(new DecelerateInterpolator());
+                            anim.setDuration(500);
+                            anim.start();
+                        } else {
+                            AnimatorSet set = (AnimatorSet) AnimatorInflater.loadAnimator(MainActivity.this, R.animator.progerss_anim);
+                            set.setInterpolator(new DecelerateInterpolator());
+                            set.setTarget(progressBar);
+                            set.start();
+                        }
+                    }
+                });
+            }
+        }, 0, 2000);
     }
+
 
     @Override
     public void hideLoading() {
@@ -110,5 +145,13 @@ public class MainActivity extends AppCompatActivity implements TeamContract.View
     public void onBackPressed() {
         super.onBackPressed();
         mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (timer != null){
+            timer.cancel();
+        }
     }
 }
