@@ -1,12 +1,12 @@
 package michael.com.meettheteam.ui;
 
+import android.content.pm.ActivityInfo;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements TeamContract.View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         ((MeetTheTeam) getApplication()).getComponent().inject(this);
 
@@ -78,15 +79,11 @@ public class MainActivity extends AppCompatActivity implements TeamContract.View
     public void showContacts(List<Contacts> contactsList) {
 
         TeamContactsAdapter mAdapter = new TeamContactsAdapter(contactsList,
-                new TeamContactsAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View itemView, int position) {
-                        mRecyclerView.setVisibility(View.GONE);
-                        progressBar.setVisibility(View.GONE);
-                        setDetailsFragment(contactsList.get(position).getBio()
-                                , contactsList.get(position).getFirstName(), contactsList.get(position).getLastName()
-                                , contactsList.get(position).getTitle(), contactsList.get(position).getAvatar());
-                    }
+                (itemView, position) -> {
+                    mRecyclerView.setVisibility(View.GONE);
+                    setDetailsFragment(contactsList.get(position).getBio()
+                            , contactsList.get(position).getFirstName(), contactsList.get(position).getLastName()
+                            , contactsList.get(position).getTitle(), contactsList.get(position).getAvatar());
                 });
         mRecyclerView.setAdapter(mAdapter);
     }
